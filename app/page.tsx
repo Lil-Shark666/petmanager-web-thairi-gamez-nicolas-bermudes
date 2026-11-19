@@ -1,16 +1,20 @@
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center font-sans">
-      <main className="flex w-full max-w-3xl flex-col items-center gap-8 px-6 py-16 text-center sm:items-start sm:text-left">
-        <div className="flex flex-col gap-4">
-          <h1 className="text-4xl font-bold tracking-tight">
-            Petmanager - Web-Thairi_gamez - Nicolas_Bermudes
-          </h1>
-          <p className="max-w-md text-lg text-muted-foreground">
-            To get started, send a prompt or modify this page directly.
-          </p>
-        </div>
+import { listAllPets } from '@/lib/pets'
+import { PetManager } from '@/components/pet-manager'
+
+export const dynamic = 'force-dynamic'
+
+export default async function Page() {
+  try {
+    const { dogs, cats } = await listAllPets()
+    return <PetManager dogs={dogs} cats={cats} />
+  } catch {
+    return (
+      <main className="mx-auto flex min-h-svh max-w-lg flex-col items-center justify-center gap-2 p-6 text-center">
+        <h1 className="text-xl font-semibold">Pet Manager</h1>
+        <p className="text-muted-foreground">
+          Could not connect to the database. Please verify the Supabase integration.
+        </p>
       </main>
-    </div>
-  );
+    )
+  }
 }
